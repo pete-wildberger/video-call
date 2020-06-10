@@ -1,0 +1,19 @@
+{
+  "name": "video-call",
+  "version": "1.0.0",
+  "description": "Video call app",
+  "main": "index.js",
+  "author": "Peter Wildberger",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc && cp src/client/index.html dist/client",
+    "start": "node dist/server/server.js"
+  },
+  "dependencies": {
+    "@types/websocket": "^1.0.0",
+    "websocket": "^1.0.31"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.12"
+  }
+}
