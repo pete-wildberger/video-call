@@ -6,7 +6,7 @@
   "author": "Peter Wildberger",
   "license": "MIT",
   "scripts": {
-    "build": "tsc && cp src/client/index.html dist/client",
+    "build": "tsc && cp src/client/index.html dist/client && cp src/client/shared.css dist/client",
     "start": "node dist/server/server.js"
   },
   "dependencies": {
