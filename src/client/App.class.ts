@@ -1,4 +1,4 @@
-import type { Message } from 'src/models/index';
+import type { Message } from '../../models/index';
 
 export class App {
     private connection = null;
@@ -14,6 +14,14 @@ export class App {
         this.$send = document.getElementById('send') as HTMLInputElement;
         this.$chatbox = document.getElementById('chatbox') as HTMLIFrameElement;
         this.$userlistbox = document.getElementById('userlistbox') as HTMLElement;
+        this.addEventListeners();
+    }
+
+    addEventListeners(){
+        const login = document.getElementById('login');
+        login!.addEventListener('click', this.connect);
+        this.$text!.addEventListener('keyup', this.handleKey);
+        this.$send!.addEventListener('click', this.send);
     }
 
     setUsername() {
@@ -39,7 +47,7 @@ export class App {
             scheme += 's';
         }
 
-        serverUrl = scheme + '://' + document.location.hostname + ':6502';
+        serverUrl = scheme + '://' + document.location.hostname + ':3000';
 
         this.connection = new WebSocket(serverUrl, 'json');
         console.log('***CREATED WEBSOCKET');

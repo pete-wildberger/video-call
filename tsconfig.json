@@ -1,22 +1,26 @@
 {
   "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "downlevelIteration": true,
-    "module": "commonjs",
-    "outDir": "./dist",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ]
+    "compilerOptions": {
+      "baseUrl": "./",
+      "outDir": "./dist",
+      "sourceMap": false,
+      "declaration": false,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "allowSyntheticDefaultImports": true,
+      // "jsx": "react",
+      "removeComments": true,
+      "noImplicitAny": false,
+      "importHelpers": true,
+      "target": "es5",
+      "typeRoots": [
+        "node_modules/@types"
+      ],
+      "lib": [
+        "es2018",
+        "dom"
+      ]
+    }
   }
-}

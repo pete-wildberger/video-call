@@ -5,29 +5,31 @@
 // Requires the websocket module.
 //
 
+import * as express from 'express';
 import * as http from 'http';
+import * as path from 'path';
 import { server as WebSocketServer } from 'websocket';
-import type { Message, Connection } from 'src/models/index';
+import type { Request, Response } from 'express';
+import type { Message, Connection } from '../models/index';
 
 class Server {
-    private connectionArray = [];
+    private connectionArray: Connection[] = [];
     private nextID = Date.now();
     private appendToMakeUnique = 1;
 
     // Load the key and certificate data to be used for our HTTPS/WSS
     // server.
 
-    private httpServer: http.Server;
+    private express = express();
+    private server: http.Server;
     private wsServer: WebSocketServer;
     constructor() {
-        this.httpServer = http.createServer((request, response) => {
-            console.log(new Date() + ' Received request for ' + request.url);
-            response.writeHead(404);
-            response.end();
-        });
+        this.middleware();
+        this.routes();
+        this.server = http.createServer(this.express);
         console.log('***CREATING WEBSOCKET SERVER');
         this.wsServer = new WebSocketServer({
-            httpServer: this.httpServer,
+            httpServer: this.server,
             autoAcceptConnections: false
         });
         this.handleEvents();
@@ -35,11 +37,22 @@ class Server {
         this.listen();
     }
 
+    middleware() {
+        this.express.use(express.static('./dist'));
+    }
+
+    routes() {
+        this.express.get('*', (req: Request, res: Response) => {
+            res.sendFile(path.join(__dirname, '../index.html'));
+        });
+    }
+
     listen() {
-        this.httpServer.listen(3000, () => {
+        this.server.listen(3000, () => {
             console.log(new Date() + ' Server is listening on port 3000');
         });
     }
+
     originIsAllowed(origin) {
         // This is where you put code to ensure the connection should
         // be accepted. Return false if it shouldn't be.
@@ -47,11 +60,11 @@ class Server {
     }
 
     isUsernameUnique(name: string): boolean {
-        return this.connectionArray.every(item => item.username !== name)
+        return this.connectionArray.every((item) => item.username !== name);
     }
 
     getConnectionForID(id) {
-        const idx = this.connectionArray.findIndex(item => item.clientID === id);
+        const idx = this.connectionArray.findIndex((item) => item.clientID === id);
 
         return idx > -1 ? this.connectionArray[idx] : null;
     }
@@ -167,7 +180,7 @@ class Server {
                     // to all clients.
 
                     if (sendToClients) {
-                      this.sendUserListToAll();
+                        this.sendUserListToAll();
                     }
                 }
             });

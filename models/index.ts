@@ -10,4 +10,5 @@ export interface Message {
 
 export interface Connection extends connection {
     clientID: number;
+    username: string;
 }
