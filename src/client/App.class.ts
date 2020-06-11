@@ -17,14 +17,14 @@ export class App {
         this.addEventListeners();
     }
 
-    addEventListeners(){
+    addEventListeners = () => {
         const login = document.getElementById('login');
         login!.addEventListener('click', this.connect);
         this.$text!.addEventListener('keyup', this.handleKey);
         this.$send!.addEventListener('click', this.send);
     }
 
-    setUsername() {
+    setUsername = () => {
         console.log('***SETUSERNAME');
         const { value: name } = this.$name;
         var msg = {
@@ -36,7 +36,7 @@ export class App {
         this.connection.send(JSON.stringify(msg));
     }
 
-    connect() {
+    connect = () => {
         var serverUrl;
         var scheme = 'ws';
 
@@ -102,7 +102,7 @@ export class App {
         console.log('***CREATED ONMESSAGE');
     }
 
-    send() {
+    send = () => {
         console.log('***SEND');
         const msg: Message = {
             text: this.$text.value,
@@ -114,7 +114,7 @@ export class App {
         this.$text.value = '';
     }
 
-    handleKey(evt) {
+    handleKey = (evt) => {
         if (evt.keyCode === 13 || evt.keyCode === 14) {
             if (!this.$send.disabled) {
                 this.send();

@@ -91,6 +91,12 @@ class Server {
         this.connectionArray.forEach((item) => item.sendUTF(userListMsgStr));
     }
 
+    sendMessageToAll(msg: Message): void {
+        const msgString = JSON.stringify(msg);
+
+        this.connectionArray.forEach((item) => item.sendUTF(msgString));
+    }
+
     handleEvents(): void {
         this.wsServer.on('request', (request) => {
             console.log('Handling request from ' + request.origin);
@@ -180,7 +186,7 @@ class Server {
                     // to all clients.
 
                     if (sendToClients) {
-                        this.sendUserListToAll();
+                        this.sendMessageToAll(msg);
                     }
                 }
             });
