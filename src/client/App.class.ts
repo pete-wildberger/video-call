@@ -22,7 +22,7 @@ export class App {
         login!.addEventListener('click', this.connect);
         this.$text!.addEventListener('keyup', this.handleKey);
         this.$send!.addEventListener('click', this.send);
-    }
+    };
 
     setUsername = () => {
         console.log('***SETUSERNAME');
@@ -34,7 +34,7 @@ export class App {
             type: 'username'
         };
         this.connection.send(JSON.stringify(msg));
-    }
+    };
 
     connect = () => {
         var scheme = 'ws';
@@ -83,12 +83,8 @@ export class App {
                     text = '<b>Your username has been set to <em>' + msg.name + '</em> because the name you chose is in use.</b><br>';
                     break;
                 case 'userlist':
-                    var ul = '';
-                    var i;
+                    const ul = msg.users.map((u) => u + '<br>').join();
 
-                    for (i = 0; i < msg.users.length; i++) {
-                        ul += msg.users[i] + '<br>';
-                    }
                     this.$userlistbox.innerHTML = ul;
                     break;
             }
@@ -99,7 +95,7 @@ export class App {
             }
         };
         console.log('***CREATED ONMESSAGE');
-    }
+    };
 
     send = () => {
         console.log('***SEND');
@@ -111,7 +107,7 @@ export class App {
         };
         this.connection.send(JSON.stringify(msg));
         this.$text.value = '';
-    }
+    };
 
     handleKey = (evt) => {
         if (evt.keyCode === 13 || evt.keyCode === 14) {
@@ -119,5 +115,5 @@ export class App {
                 this.send();
             }
         }
-    }
+    };
 }
