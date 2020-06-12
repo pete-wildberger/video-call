@@ -37,7 +37,6 @@ export class App {
     }
 
     connect = () => {
-        var serverUrl;
         var scheme = 'ws';
 
         // If this is an HTTPS connection, we have to use a secure WebSocket
@@ -47,7 +46,7 @@ export class App {
             scheme += 's';
         }
 
-        serverUrl = scheme + '://' + document.location.hostname + ':3000';
+        const serverUrl = scheme + '://' + document.location.hostname + ':3000';
 
         this.connection = new WebSocket(serverUrl, 'json');
         console.log('***CREATED WEBSOCKET');

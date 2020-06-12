@@ -16,10 +16,6 @@ class Server {
     private connectionArray: Connection[] = [];
     private nextID = Date.now();
     private appendToMakeUnique = 1;
-
-    // Load the key and certificate data to be used for our HTTPS/WSS
-    // server.
-
     private express = express();
     private server: http.Server;
     private wsServer: WebSocketServer;
@@ -27,6 +23,15 @@ class Server {
         this.middleware();
         this.routes();
         this.server = http.createServer(this.express);
+        this.createWebSocketServer();
+        this.listen();
+    }
+
+    middleware() {
+        this.express.use(express.static('./dist'));
+    }
+
+    createWebSocketServer() {
         console.log('***CREATING WEBSOCKET SERVER');
         this.wsServer = new WebSocketServer({
             httpServer: this.server,
@@ -34,11 +39,6 @@ class Server {
         });
         this.handleEvents();
         console.log('***CREATED');
-        this.listen();
-    }
-
-    middleware() {
-        this.express.use(express.static('./dist'));
     }
 
     routes() {
